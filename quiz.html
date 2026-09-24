@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz · Colunas da Hélade · História 6º ano</title>
+<style>
+  :root{
+    --bg:#0d1526; --bg2:#131f38; --card:#1a2844; --card2:#213255;
+    --marble:#eef1f6; --muted:#9fb0cc; --gold:#e0b84c; --gold-soft:rgba(224,184,76,.14);
+    --terra:#d1704a; --green:#4caf7d; --red:#e0574f; --line:rgba(224,184,76,.25);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:radial-gradient(1200px 600px at 50% -10%,#1b2a4a 0%,var(--bg) 60%);color:var(--marble);
+    font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;line-height:1.6;padding-bottom:60px}
+  h1,h2,h3,.serif{font-family:Georgia,'Times New Roman',serif}
+  header{background:linear-gradient(180deg,#16264a,#0d1526);border-bottom:2px solid var(--line);padding:22px 16px 16px;text-align:center}
+  header .temple{font-size:30px;letter-spacing:2px}
+  header h1{margin:6px 0 2px;font-size:1.5rem;color:var(--gold)}
+  header .sub{color:var(--muted);font-size:.95rem}
+  nav{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:14px auto 0;max-width:760px}
+  nav a{color:var(--marble);text-decoration:none;background:var(--card);border:1px solid var(--line);padding:8px 14px;border-radius:20px;font-size:.9rem}
+  nav a.active{background:var(--gold);color:#1a1408;font-weight:bold;border-color:var(--gold)}
+  .wrap{max-width:820px;margin:0 auto;padding:0 16px}
+  .intro{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin:20px 0}
+  .intro h2{margin:0 0 6px;color:var(--gold)}
+  .q{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin:16px 0}
+  .q .qh{font-weight:bold;font-family:Georgia,serif}
+  .q .qh .n{color:var(--gold);margin-right:6px}
+  .alt{display:block;background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:11px 14px;margin:9px 0;cursor:pointer;transition:.15s}
+  .alt:hover{border-color:var(--gold)}
+  .alt.sel{border-color:var(--gold);background:var(--gold-soft)}
+  .alt .letra{display:inline-block;width:22px;color:var(--gold);font-weight:bold}
+  .alt.correta{border-color:var(--green);background:rgba(76,175,125,.15)}
+  .alt.errada-sel{border-color:var(--red);background:rgba(224,87,79,.15)}
+  .alt.cinza{opacity:.75}
+  .coment{display:none;margin-top:8px;font-size:.9rem;background:var(--card2);border-left:3px solid var(--gold);border-radius:8px;padding:9px 12px}
+  .coment.show{display:block}
+  .btn{background:var(--gold);color:#1a1408;border:none;border-radius:10px;padding:11px 22px;font-weight:bold;font-size:1rem;cursor:pointer}
+  .btn:disabled{opacity:.45;cursor:not-allowed}
+  .btn.sec{background:var(--card);color:var(--marble);border:1px solid var(--line)}
+  .resultado{display:none;background:var(--card);border:2px solid var(--gold);border-radius:14px;padding:18px;margin:18px 0;text-align:center}
+  .resultado.show{display:block}
+  .resultado .placar{font-size:2rem;font-family:Georgia,serif;color:var(--gold)}
+  .codigo{font-family:monospace;font-size:1.5rem;color:var(--green);letter-spacing:2px;margin:6px 0}
+  .painel{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:20px 0;font-size:.9rem}
+  .painel .row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
+  .painel button{margin:4px 4px 0 0}
+  .foot-nav{display:flex;justify-content:space-between;margin:26px 0 10px}
+  .foot-nav a{background:var(--card);color:var(--marble);border:1px solid var(--line);text-decoration:none;padding:10px 18px;border-radius:10px}
+  .foot-nav a.prim{background:var(--gold);color:#1a1408;font-weight:bold}
+  .modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:50;align-items:center;justify-content:center}
+  .modal-bg.show{display:flex}
+  .modal{background:var(--card);border:1px solid var(--gold);border-radius:14px;padding:20px;max-width:340px;text-align:center}
+</style>
+</head>
+<body>
+<header>
+  <div class="temple">&#127963;</div>
+  <h1>Colunas da Hélade</h1>
+  <div class="sub">História &middot; 6º ano &middot; Grécia Antiga &middot; Prova 01/10</div>
+  <nav>
+    <a href="leitura-guiada.html">📖 Leitura Guiada</a>
+    <a class="active" href="quiz.html">🎯 Quiz</a>
+    <a href="resumo.html">🗺️ Resumo</a>
+    <a href="simulado.html">📝 Simulado</a>
+    <a href="index.html">🏛️ Início</a>
+  </nav>
+</header>
+
+<div class="wrap">
+  <div class="intro">
+    <h2>🎯 Quiz — 15 perguntas</h2>
+    <p>Escolha uma alternativa em cada pergunta. No fim, clique em <b>Corrigir</b> para ver seu placar, o <b>gabarito comentado</b> e o seu <b>código MED</b> (para mostrar aos pais).</p>
+  </div>
+
+  <div id="quiz"></div>
+
+  <div style="text-align:center;margin:18px 0">
+    <button class="btn" id="btnCorrigir" onclick="corrigir()">✅ Corrigir Quiz</button>
+  </div>
+
+  <div class="resultado" id="resultado">
+    <div class="placar" id="placar"></div>
+    <p id="msgPlacar"></p>
+    <p>Seu código para os pais:</p>
+    <div class="codigo" id="codMED"></div>
+    <p style="font-size:.85rem;color:var(--muted)">Mostre este código a um responsável — ele abre o Relatório dos pais na página inicial.</p>
+    <button class="btn sec" onclick="refazer()">🔄 Refazer</button>
+  </div>
+
+  <div class="painel">
+    <div class="row">
+      <span id="salvo">Progresso salvo automaticamente.</span>
+      <span>
+        <button class="btn sec" onclick="exportar()">📥 Exportar</button>
+        <button class="btn sec" onclick="document.getElementById('imp').click()">📤 Importar</button>
+        <button class="btn sec" onclick="zerar()">🗑️ Zerar tudo</button>
+      </span>
+    </div>
+    <input type="file" id="imp" accept="application/json" style="display:none" onchange="importar(event)">
+  </div>
+
+  <div class="foot-nav">
+    <a href="leitura-guiada.html">← Leitura Guiada</a>
+    <a class="prim" href="resumo.html">Próximo: Resumo 🗺️</a>
+  </div>
+</div>
+
+<div class="modal-bg" id="modalbg"><div class="modal"><p id="modaltxt"></p><button class="btn" onclick="fecharModal()">Ok</button></div></div>
+
+<script>
+"use strict";
+var MEM={};
+function lsGet(k){ try{ var v=localStorage.getItem(k); return v==null?MEM[k]:v; }catch(e){ return MEM[k]; } }
+function lsSet(k,v){ MEM[k]=v; try{ localStorage.setItem(k,v); }catch(e){} }
+function lsDel(k){ delete MEM[k]; try{ localStorage.removeItem(k); }catch(e){} }
+var STORE="helade_quiz";
+
+/* alternativas[0] é sempre a correta ANTES de embaralhar */
+var QUESTOES=[
+ {q:"Como os gregos da Antiguidade chamavam a região onde viviam?",
+  alt:["Hélade","Grécia","Macedônia","Mesopotâmia"],
+  com:"Eles chamavam a terra de <b>Hélade</b> e a si mesmos de helenos. Os nomes \"Grécia\" e \"gregos\" surgiram depois."},
+ {q:"Qual era a principal característica geográfica da península onde viviam os gregos?",
+  alt:["Era muito montanhosa, com poucas terras férteis","Tinha enormes planícies férteis","Era coberta por um grande deserto","Era formada por florestas tropicais"],
+  com:"Cerca de 80% eram montanhas. Isso isolou as comunidades e estimulou o comércio pelo mar."},
+ {q:"As obras Ilíada e Odisseia são atribuídas a qual autor?",
+  alt:["Homero","Heródoto","Sólon","Péricles"],
+  com:"<b>Homero</b>, poeta grego. São poemas épicos, fontes importantes sobre a Grécia Antiga."},
+ {q:"Em Esparta, qual grupo formava a maioria da população e vivia como servos?",
+  alt:["Os hilotas","Os esparciatas","Os periecos","Os eupátridas"],
+  com:"<b>Hilotas</b> = servos (maioria). Esparciatas = donos das terras; periecos = livres, sem direitos políticos."},
+ {q:"Qual governante fez a reforma que deu origem à democracia ateniense?",
+  alt:["Clístenes (507 a.C.)","Drácon","Sólon","Péricles"],
+  com:"Drácon escreveu as leis; Sólon acabou com a escravidão por dívida; <b>Clístenes</b> criou o sistema democrático."},
+ {q:"Na democracia ateniense, quem era considerado cidadão?",
+  alt:["Apenas homens livres, maiores de 21 anos, nascidos em Atenas de pais atenienses","Todos os moradores de Atenas","Todos os homens e mulheres livres","Todos, inclusive escravos e estrangeiros"],
+  com:"Mulheres, escravos e estrangeiros ficavam de fora — só cerca de 10% eram cidadãos."},
+ {q:"As Guerras Médicas (ou Greco-pérsicas) foram travadas entre:",
+  alt:["Os gregos e o Império Persa","Atenas e Esparta","Gregos e romanos","Esparta e Tebas"],
+  com:"Começaram em 499 a.C. Os gregos venceram usando a falange e conhecendo o próprio território."},
+ {q:"A Guerra do Peloponeso (431–404 a.C.) foi vencida por qual cidade?",
+  alt:["Esparta","Atenas","Tebas","Mileto"],
+  com:"Foi uma guerra entre gregos (Atenas x Esparta). <b>Esparta venceu em 404 a.C.</b>"},
+ {q:"Enfraquecida pelas guerras internas, a Grécia foi conquistada em 338 a.C. por:",
+  alt:["Filipe II da Macedônia","Dario I da Pérsia","Júlio César","Aníbal de Cartago"],
+  com:"<b>Filipe II da Macedônia</b>, reino ao norte da Grécia, aproveitou o enfraquecimento das pólis."},
+ {q:"A religião dos gregos pode ser definida como:",
+  alt:["Politeísta e antropomórfica","Monoteísta","Sem nenhum deus","Baseada em um livro sagrado"],
+  com:"<b>Politeísta</b> (vários deuses) e <b>antropomórfica</b> (deuses com aparência e sentimentos humanos), porém imortais."},
+ {q:"O deus grego Poseidon era conhecido pelos romanos pelo nome de:",
+  alt:["Netuno","Zeus","Apolo","Marte"],
+  com:"Gregos e romanos tinham os mesmos deuses com nomes diferentes: Poseidon = <b>Netuno</b> (deus dos mares)."},
+ {q:"Por que se diz que Grécia e Roma eram \"sociedades escravistas\"?",
+  alt:["Desprezavam o trabalho manual, que era feito pelos escravos, base da mão de obra","Todos os cidadãos eram obrigados a trabalhar na lavoura","Não existia nenhum tipo de trabalho","Os escravos governavam as cidades"],
+  com:"O trabalho manual era desprezado e destinado aos escravos, que sustentavam a economia."},
+ {q:"Como era, em geral, o papel das mulheres na sociedade greco-romana?",
+  alt:["Ficava restrito ao lar e elas não eram consideradas cidadãs","Elas tinham os mesmos direitos políticos dos homens","Elas comandavam os exércitos","Elas eram as únicas que podiam votar"],
+  com:"O papel era restrito ao ambiente doméstico; não participavam de assembleias. Roma era patriarcal (pater familias)."},
+ {q:"Qual historiador grego é chamado de \"pai da História\"?",
+  alt:["Heródoto","Aristóteles","Pitágoras","Aristófanes"],
+  com:"<b>Heródoto</b> inaugurou um novo jeito de narrar o passado, investigando os fatos (obra <i>Histórias</i>)."},
+ {q:"A palavra \"Olimpíada\" tem origem em:",
+  alt:["Olímpia, cidade perto do Monte Olimpo","Atenas, a capital dos jogos","Roma, onde os jogos começaram","Esparta, terra dos atletas"],
+  com:"Vinha de Olímpia (perto do Monte Olimpo, morada dos deuses). Os jogos deram origem aos Jogos Olímpicos."}
+];
+
+/* PRNG com semente fixa, para o embaralhamento ser estável entre aberturas */
+function rng(seed){ var s=seed>>>0; return function(){ s=(s*1664525+1013904223)>>>0; return s/4294967296; }; }
+function embaralhar(arr,seed){
+  var a=arr.map(function(x,i){return {x:x,i:i};}), r=rng(seed);
+  for(var k=a.length-1;k>0;k--){ var j=Math.floor(r()*(k+1)); var t=a[k];a[k]=a[j];a[j]=t; }
+  return a; // cada item guarda .i (índice original; 0 = correta)
+}
+
+var estado=carregar();
+function carregar(){ try{ var raw=lsGet(STORE); if(raw) return JSON.parse(raw); }catch(e){} return {resp:{}, med:null, corrigido:false}; }
+function salvar(){ lsSet(STORE,JSON.stringify(estado)); var s=document.getElementById("salvo"); if(s) s.textContent="Salvo às "+new Date().toLocaleTimeString("pt-BR"); }
+
+/* embaralha uma vez por questão (seed = índice+1) e guarda a ordem */
+var ORDEM = QUESTOES.map(function(qq,qi){ return embaralhar(qq.alt, (qi+1)*1+31); });
+var LETRAS=["A","B","C","D"];
+
+function render(){
+  var c=document.getElementById("quiz"); c.innerHTML="";
+  QUESTOES.forEach(function(qq,qi){
+    var div=document.createElement("div"); div.className="q"; div.id="q"+qi;
+    var html='<div class="qh"><span class="n">'+(qi+1)+'.</span>'+qq.q+'</div>';
+    ORDEM[qi].forEach(function(item,ai){
+      var sel = (estado.resp[qi]===ai)?" sel":"";
+      html+='<label class="alt'+sel+'" id="alt_'+qi+'_'+ai+'" onclick="escolher('+qi+','+ai+')"><span class="letra">'+LETRAS[ai]+')</span>'+item.x+'</label>';
+    });
+    html+='<div class="coment" id="com_'+qi+'"><b>Comentário:</b> '+qq.com+'</div>';
+    div.innerHTML=html; c.appendChild(div);
+  });
+  if(estado.corrigido) mostrarGabarito();
+}
+function escolher(qi,ai){
+  if(estado.corrigido) return;
+  estado.resp[qi]=ai; salvar();
+  for(var k=0;k<ORDEM[qi].length;k++){ var el=document.getElementById("alt_"+qi+"_"+k); if(el) el.classList.toggle("sel",k===ai); }
+}
+function corrigir(){
+  var faltam=[];
+  for(var qi=0;qi<QUESTOES.length;qi++){ if(estado.resp[qi]==null) faltam.push(qi+1); }
+  if(faltam.length){ modal("Ainda faltam perguntas: "+faltam.join(", ")+"."); return; }
+  var acertos=0;
+  for(var qi=0;qi<QUESTOES.length;qi++){ if(ORDEM[qi][estado.resp[qi]].i===0) acertos++; }
+  if(!estado.med){ estado.med="MED-"+String(acertos).padStart(2,"0")+"-"+letras2(); }
+  estado.acertos=acertos; estado.corrigido=true; salvar();
+  render();
+  var r=document.getElementById("resultado"); r.classList.add("show");
+  document.getElementById("placar").textContent=acertos+" / 15";
+  document.getElementById("codMED").textContent=estado.med;
+  var msg = acertos>=13?"Excelente! Você domina a Grécia Antiga. 🏛️" : acertos>=9?"Muito bom! Reforce o que errou no Resumo." : "Bom começo! Volte na Leitura Guiada e no Resumo antes da prova.";
+  document.getElementById("msgPlacar").textContent=msg;
+  document.getElementById("btnCorrigir").disabled=true;
+  r.scrollIntoView({behavior:"smooth"});
+}
+function letras2(){ var L="ABCDEFGHJKLMNPQRSTUVWXYZ"; return L[Math.floor(Math.random()*L.length)]+L[Math.floor(Math.random()*L.length)]; }
+function mostrarGabarito(){
+  document.getElementById("btnCorrigir").disabled=true;
+  QUESTOES.forEach(function(qq,qi){
+    ORDEM[qi].forEach(function(item,ai){
+      var el=document.getElementById("alt_"+qi+"_"+ai); if(!el) return;
+      el.classList.add("cinza");
+      if(item.i===0){ el.classList.remove("cinza"); el.classList.add("correta"); }
+      else if(estado.resp[qi]===ai){ el.classList.add("errada-sel"); }
+    });
+    document.getElementById("com_"+qi).classList.add("show");
+  });
+  var r=document.getElementById("resultado"); r.classList.add("show");
+  document.getElementById("placar").textContent=(estado.acertos||0)+" / 15";
+  document.getElementById("codMED").textContent=estado.med||"";
+}
+function refazer(){
+  modalConfirm("Refazer o quiz? Suas respostas serão apagadas.", function(){
+    estado={resp:{},med:null,corrigido:false}; lsDel(STORE); salvar();
+    document.getElementById("btnCorrigir").disabled=false;
+    document.getElementById("resultado").classList.remove("show");
+    render();
+  });
+}
+function exportar(){
+  var out={material:"Quiz - Colunas da Helade", data:new Date().toISOString(), acertos:estado.acertos||0, med:estado.med, corrigido:estado.corrigido, respostas:{}};
+  QUESTOES.forEach(function(qq,qi){ if(estado.resp[qi]!=null){ out.respostas[qi+1]={escolhida:LETRAS[estado.resp[qi]], correta:(ORDEM[qi][estado.resp[qi]].i===0)}; } });
+  var blob=new Blob([JSON.stringify(out,null,2)],{type:"application/json"});
+  var a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="quiz_colunas-helade.json"; a.click();
+}
+function importar(ev){ var f=ev.target.files[0]; if(!f) return; var r=new FileReader();
+  r.onload=function(){ try{ var d=JSON.parse(r.result);
+    if(d.respostas){ estado.resp={}; Object.keys(d.respostas).forEach(function(n){ var q=+n-1; var letra=d.respostas[n].escolhida; estado.resp[q]=LETRAS.indexOf(letra); });
+      estado.med=d.med||null; estado.acertos=d.acertos||0; estado.corrigido=!!d.corrigido; salvar(); render(); modal("Progresso importado!"); }
+  }catch(e){ modal("Arquivo inválido."); } };
+  r.readAsText(f);
+}
+function zerar(){ modalConfirm("Apagar todo o seu progresso do Quiz?", function(){ estado={resp:{},med:null,corrigido:false}; lsDel(STORE); salvar(); document.getElementById("btnCorrigir").disabled=false; document.getElementById("resultado").classList.remove("show"); render(); }); }
+
+function modal(txt){ document.getElementById("modaltxt").innerHTML=txt; var b=document.getElementById("modalbg"); b.classList.add("show"); b.querySelector("button").textContent="Ok"; b.querySelector("button").onclick=fecharModal; }
+function modalConfirm(txt,cb){ document.getElementById("modaltxt").innerHTML=txt; var b=document.getElementById("modalbg"); b.classList.add("show"); var btn=b.querySelector("button"); btn.textContent="Confirmar"; btn.onclick=function(){ fecharModal(); btn.textContent="Ok"; cb&&cb(); }; }
+function fecharModal(){ document.getElementById("modalbg").classList.remove("show"); }
+
+render();
+</script>
+</body>
+</html>

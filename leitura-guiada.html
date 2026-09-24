@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leitura Guiada · Colunas da Hélade · História 6º ano</title>
+<style>
+  :root{
+    --bg:#0d1526; --bg2:#131f38; --card:#1a2844; --card2:#213255;
+    --marble:#eef1f6; --muted:#9fb0cc; --gold:#e0b84c; --gold-soft:rgba(224,184,76,.14);
+    --terra:#d1704a; --green:#4caf7d; --red:#e0574f; --line:rgba(224,184,76,.25);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:radial-gradient(1200px 600px at 50% -10%,#1b2a4a 0%,var(--bg) 60%);color:var(--marble);
+    font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;line-height:1.6;padding-bottom:60px}
+  h1,h2,h3,.serif{font-family:Georgia,'Times New Roman',serif}
+  header{background:linear-gradient(180deg,#16264a,#0d1526);border-bottom:2px solid var(--line);padding:22px 16px 16px;text-align:center}
+  header .temple{font-size:30px;letter-spacing:2px}
+  header h1{margin:6px 0 2px;font-size:1.5rem;color:var(--gold)}
+  header .sub{color:var(--muted);font-size:.95rem}
+  nav{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:14px auto 0;max-width:760px}
+  nav a{color:var(--marble);text-decoration:none;background:var(--card);border:1px solid var(--line);
+    padding:8px 14px;border-radius:20px;font-size:.9rem}
+  nav a.active{background:var(--gold);color:#1a1408;font-weight:bold;border-color:var(--gold)}
+  .wrap{max-width:820px;margin:0 auto;padding:0 16px}
+  .intro{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin:20px 0}
+  .intro h2{margin:0 0 6px;color:var(--gold);font-size:1.15rem}
+  .col{background:var(--card);border:1px solid var(--line);border-radius:14px;margin:18px 0;overflow:hidden;
+    opacity:.5;pointer-events:none;transition:opacity .3s}
+  .col.aberto{opacity:1;pointer-events:auto}
+  .col-head{display:flex;align-items:center;gap:12px;padding:14px 18px;background:linear-gradient(90deg,var(--gold-soft),transparent);
+    border-bottom:1px solid var(--line)}
+  .col-head .num{font-family:Georgia,serif;font-size:1.5rem;color:var(--gold);min-width:54px}
+  .col-head h2{margin:0;font-size:1.15rem}
+  .col-head .cap{display:block;color:var(--muted);font-size:.8rem;font-weight:normal}
+  .col-body{padding:8px 18px 18px}
+  .col-body p{margin:12px 0}
+  .locktag{color:var(--muted);font-size:.85rem;padding:10px 18px;font-style:italic}
+  .perg{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:14px;margin:14px 0}
+  .perg .qnum{color:var(--gold);font-weight:bold;font-family:Georgia,serif}
+  .perg.badge-ap::after{content:"aplicação";float:right;font-size:.7rem;background:var(--gold-soft);color:var(--gold);
+    padding:2px 8px;border-radius:10px}
+  .perg.badge-co::after{content:"conceito";float:right;font-size:.7rem;background:rgba(159,176,204,.18);color:var(--muted);
+    padding:2px 8px;border-radius:10px}
+  textarea{width:100%;margin-top:8px;background:#0b1220;color:var(--marble);border:1px solid var(--line);
+    border-radius:8px;padding:10px;font-size:1rem;font-family:inherit;resize:vertical;min-height:64px}
+  textarea.vermelha{border-color:var(--red);background:#2a1414}
+  .aviso{border-radius:8px;padding:10px 12px;margin-top:8px;font-size:.9rem;display:none}
+  .aviso.amarelo{display:block;background:rgba(224,184,76,.12);border:1px solid var(--gold);color:#f3dfa0}
+  .aviso.vermelho{display:block;background:rgba(224,87,79,.12);border:1px solid var(--red);color:#f4b3ae}
+  .modelo{display:none;margin-top:10px;background:var(--card2);border-left:3px solid var(--green);border-radius:8px;padding:10px 12px}
+  .modelo.show{display:block}
+  .modelo b{color:var(--green)}
+  .chk{margin-top:8px}
+  .chk .item{display:flex;align-items:center;gap:8px;margin:6px 0;font-size:.92rem}
+  .chk button{background:var(--card);border:1px solid var(--line);color:var(--marble);border-radius:8px;padding:3px 12px;cursor:pointer}
+  .chk button.sim.on{background:var(--green);color:#08130d;border-color:var(--green)}
+  .chk button.nao.on{background:var(--terra);color:#1a0e08;border-color:var(--terra)}
+  .btn{background:var(--gold);color:#1a1408;border:none;border-radius:10px;padding:10px 20px;font-weight:bold;font-size:1rem;cursor:pointer}
+  .btn:disabled{opacity:.4;cursor:not-allowed}
+  .btn.sec{background:var(--card);color:var(--marble);border:1px solid var(--line)}
+  .status{margin-top:10px;font-weight:bold}
+  .status.ok{color:var(--green)}
+  .status.rev{color:var(--terra)}
+  .peg{background:var(--card);border:1px solid var(--red);border-radius:14px;padding:16px 18px;margin:22px 0}
+  .peg h2{color:var(--red);margin:0 0 8px}
+  .peg ol{margin:0;padding-left:20px}
+  .peg li{margin:8px 0}
+  table{width:100%;border-collapse:collapse;margin:10px 0;font-size:.9rem}
+  th,td{border:1px solid var(--line);padding:8px 10px;text-align:left}
+  th{background:var(--gold-soft);color:var(--gold)}
+  .revbox{background:var(--card);border:1px solid var(--terra);border-radius:14px;padding:16px 18px;margin:22px 0}
+  .revbox h2{color:var(--terra);margin:0 0 8px}
+  .painel{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:20px 0;font-size:.9rem}
+  .painel .row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
+  .painel button{margin:4px 4px 0 0}
+  .foot-nav{display:flex;justify-content:space-between;margin:26px 0 10px}
+  .modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:50;align-items:center;justify-content:center}
+  .modal-bg.show{display:flex}
+  .modal{background:var(--card);border:1px solid var(--gold);border-radius:14px;padding:20px;max-width:340px;text-align:center}
+  .modal button{margin-top:14px}
+  small.dica{color:var(--muted)}
+</style>
+</head>
+<body>
+<header>
+  <div class="temple">&#127963;</div>
+  <h1>Colunas da Hélade</h1>
+  <div class="sub">História &middot; 6º ano &middot; Grécia Antiga &middot; Prova 01/10</div>
+  <nav>
+    <a class="active" href="leitura-guiada.html">📖 Leitura Guiada</a>
+    <a href="quiz.html">🎯 Quiz</a>
+    <a href="resumo.html">🗺️ Resumo</a>
+    <a href="simulado.html">📝 Simulado</a>
+    <a href="index.html">🏛️ Início</a>
+  </nav>
+</header>
+
+<div class="wrap">
+  <div class="intro">
+    <h2>Como funciona esta leitura</h2>
+    <p>Cada <b>coluna</b> deste templo guarda uma parte da Grécia Antiga. Leia a coluna, responda as <b>3 perguntas</b> com <b>suas próprias palavras</b> (escrevendo na caixa) e clique em <b>Conferir</b>. A próxima coluna só abre depois que você confere a anterior.</p>
+    <p><small class="dica">Dica: não copie o texto. Explique como se estivesse contando para um amigo. Pode ser curto e simples — o que vale é ser SEU.</small></p>
+  </div>
+
+  <div id="colunas"></div>
+
+  <div class="peg">
+    <h2>⚠️ 10 Pegadinhas da prova</h2>
+    <ol id="pegadinhas"></ol>
+  </div>
+
+  <div class="col" style="opacity:1;pointer-events:auto">
+    <div class="col-head"><span class="num">🗂️</span><h2>Cobertura: Tópico → Coluna</h2></div>
+    <div class="col-body">
+      <table>
+        <tr><th>Tópico do capítulo</th><th>Onde estudar</th></tr>
+        <tr><td>Geografia da Hélade (Cap. 10)</td><td>Coluna I</td></tr>
+        <tr><td>Povos, Guerra de Troia e Homero (Cap. 10)</td><td>Coluna II</td></tr>
+        <tr><td>Genos e o surgimento da pólis (Cap. 10)</td><td>Coluna III</td></tr>
+        <tr><td>Esparta: sociedade e governo (Cap. 11)</td><td>Coluna IV</td></tr>
+        <tr><td>Atenas e a democracia (Cap. 11)</td><td>Coluna V</td></tr>
+        <tr><td>Guerras Médicas e a falange (Cap. 12)</td><td>Coluna VI</td></tr>
+        <tr><td>Liga de Delos, Péricles e Guerra do Peloponeso (Cap. 12)</td><td>Coluna VII</td></tr>
+        <tr><td>Mitologia e religião greco-romana (Cap. 16)</td><td>Coluna VIII</td></tr>
+        <tr><td>Cidadania, mulheres e escravos (Cap. 17)</td><td>Coluna IX</td></tr>
+        <tr><td>O legado dos gregos (Cap. 18)</td><td>Coluna X</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="revbox" id="revbox" style="display:none">
+    <h2>🔁 Para revisar</h2>
+    <p>Estas perguntas ficaram marcadas em vermelho (resposta muito parecida com o texto) ou com algum "não" na autoavaliação. Volte nelas com calma:</p>
+    <ul id="revlist"></ul>
+  </div>
+
+  <div class="painel">
+    <div class="row">
+      <span id="salvo">Progresso salvo automaticamente.</span>
+      <span>
+        <button class="btn sec" onclick="exportar()">📥 Exportar</button>
+        <button class="btn sec" onclick="document.getElementById('imp').click()">📤 Importar</button>
+        <button class="btn sec" onclick="zerar()">🗑️ Zerar tudo</button>
+      </span>
+    </div>
+    <input type="file" id="imp" accept="application/json" style="display:none" onchange="importar(event)">
+  </div>
+
+  <div class="foot-nav">
+    <span></span>
+    <a class="btn" href="quiz.html">Próximo: Quiz 🎯</a>
+  </div>
+</div>
+
+<div class="modal-bg" id="modalbg"><div class="modal"><p id="modaltxt"></p><button class="btn" onclick="fecharModal()">Ok</button></div></div>
+
+<script>
+"use strict";
+/* ====== Armazenamento seguro (try/catch + memória de reserva) ====== */
+var MEM = {};
+function lsGet(k){ try{ var v=localStorage.getItem(k); return v==null?MEM[k]:v; }catch(e){ return MEM[k]; } }
+function lsSet(k,v){ MEM[k]=v; try{ localStorage.setItem(k,v); }catch(e){} }
+function lsDel(k){ delete MEM[k]; try{ localStorage.removeItem(k); }catch(e){} }
+var STORE="helade_leitura";
+
+/* ====== Conteúdo (escrito a partir da leitura real do livro no P+) ====== */
+var BLOCOS = [
+ { num:"I", icone:"⛰️", titulo:"A Terra dos Gregos", cap:"Capítulo 10 · A Grécia Antiga",
+   texto:[
+    "Os gregos da Antiguidade não se chamavam de gregos: eles diziam morar na <b>Hélade</b> e chamavam a si mesmos de <b>helenos</b>. Os nomes \"Grécia\" e \"gregos\" vieram só depois.",
+    "A Hélade ficava na <b>península Balcânica</b>, uma terra muito montanhosa (as montanhas ocupavam cerca de 80% do território) e com poucas áreas boas para plantar. Entre as montanhas havia alguns vales férteis, e foi ali que as pessoas se juntaram para viver.",
+    "Por causa das montanhas, cada grupo ficava <b>isolado e independente</b> dos outros. E, como faltava terra para a agricultura, os gregos investiram no <b>comércio pelo mar</b>: tinham muito litoral, águas calmas e portos naturais, o que facilitava a navegação."
+   ],
+   perg:[
+    {tipo:"ap", q:"Imagine que você mora em um vale cercado de montanhas muito altas, longe dos outros vilarejos. Escreva 2 consequências que esse isolamento traria para a sua comunidade.",
+     modelo:"Cada vale ficava separado dos outros, então as comunidades viviam <b>independentes</b>, com regras e governos próprios; e ficava difícil unir todo mundo em um só país.",
+     chk:["Falei que os vales/grupos ficavam isolados ou separados?","Liguei o isolamento a comunidades independentes (governo próprio)?"]},
+    {tipo:"ap", q:"O texto diz que os gregos tinham muito litoral e poucas terras boas para plantar. Com suas palavras, explique por que isso fez o comércio pelo mar crescer.",
+     modelo:"Como havia pouca terra fértil, não dava para viver só da agricultura; então eles buscaram outras atividades. O litoral extenso, com portos naturais e águas calmas, facilitava navegar e comerciar.",
+     chk:["Citei que havia pouca terra fértil (pouca agricultura)?","Liguei o litoral/os portos à facilidade de navegar e comerciar?"]},
+    {tipo:"co", q:"O que eram a \"Hélade\" e os \"helenos\"?",
+     modelo:"<b>Hélade</b> era o nome que os próprios gregos davam à região onde viviam; <b>helenos</b> era como eles chamavam a si mesmos.",
+     chk:["Disse que Hélade era o nome da região?","Disse que helenos era como os gregos chamavam a si mesmos?"]}
+   ]},
+ { num:"II", icone:"🐴", titulo:"Heróis, Troia e Homero", cap:"Capítulo 10 · A Grécia Antiga",
+   texto:[
+    "Os primeiros povoadores chegaram à península por volta de <b>2000 a.C.</b> Eram povos de várias origens, como <b>aqueus, jônios e eólios</b>, que dominaram populações que já viviam ali, como os minoicos (de Creta) e os troianos.",
+    "A dominação de Troia virou uma das histórias mais famosas: a <b>Guerra de Troia</b>. Para vencer, os gregos usaram uma ideia de Ulisses — construíram um enorme <b>cavalo de madeira</b> com guerreiros escondidos dentro e o ofereceram aos troianos, que o levaram para dentro das muralhas.",
+    "Boa parte do que sabemos sobre os gregos desse período vem dos poemas <b>Ilíada</b> e <b>Odisseia</b>, atribuídos ao poeta <b>Homero</b>. Mesmo sem comprovar tudo, essas obras são <b>fontes</b> muito importantes para estudar a Grécia Antiga."
+   ],
+   perg:[
+    {tipo:"co", q:"Quem foi Homero e quais são as duas obras atribuídas a ele?",
+     modelo:"Homero foi um poeta grego. As obras atribuídas a ele são a <b>Ilíada</b> e a <b>Odisseia</b>, poemas épicos que servem de fonte sobre a Grécia Antiga.",
+     chk:["Disse que Homero era um poeta (grego)?","Citei a Ilíada e a Odisseia?"]},
+    {tipo:"ap", q:"Conte com suas palavras, como se explicasse para um colega mais novo, o truque do cavalo de Troia.",
+     modelo:"Os gregos fizeram um cavalo de madeira gigante e esconderam soldados dentro. Ofereceram como se fosse um presente; os troianos o levaram para dentro da cidade e, à noite, os gregos saíram e venceram. A ideia foi de Ulisses.",
+     chk:["Expliquei que havia soldados escondidos dentro do cavalo?","Mostrei que os troianos levaram o cavalo para dentro e por isso perderam?"]},
+    {tipo:"ap", q:"Por que os historiadores dizem que a Ilíada e a Odisseia são \"fontes\", mesmo sendo poemas? Dê a sua explicação.",
+     modelo:"Porque grande parte do que se sabe sobre os gregos daquele período vem desses relatos; eles ajudam a estudar a cultura e as histórias, mesmo que nem tudo possa ser comprovado.",
+     chk:["Liguei os poemas ao que sabemos/estudamos sobre os gregos?","Mostrei que servem para estudar, mesmo sem comprovar tudo?"]}
+   ]},
+ { num:"III", icone:"🏙️", titulo:"Do Geno à Pólis", cap:"Capítulo 10 · A Grécia Antiga",
+   texto:[
+    "Nos vales férteis surgiram os <b>genos</b>: grupos de famílias com laços de parentesco que, no início, trabalhavam de forma <b>cooperativa</b>, usando os recursos de todos juntos. O líder costumava ser um homem mais velho, o <b>pater</b>.",
+    "Com o tempo, os que estavam mais perto do pater concentraram poder e terras, considerando-se <b>melhores</b> (em grego, <b>aristoi</b>). Assim, a cooperação deu lugar à <b>desigualdade</b>.",
+    "Por volta de <b>800 a.C.</b> (período Arcaico), esses grupos se transformaram em <b>pólis</b>: as cidades-Estado. Cada pólis era <b>independente</b>, com governo próprio — como um pequeno país. As mais conhecidas foram <b>Atenas</b> e <b>Esparta</b>."
+   ],
+   perg:[
+    {tipo:"co", q:"O que era uma pólis?",
+     modelo:"Era uma <b>cidade-Estado</b> grega, independente e com governo próprio — como se fosse um pequeno país. Funcionava como centro político, econômico, social e cultural da região.",
+     chk:["Disse que a pólis era uma cidade-Estado independente?","Mencionei que tinha governo próprio (como um pequeno país)?"]},
+    {tipo:"ap", q:"O texto diz que os genos começaram cooperativos e depois surgiu a desigualdade. Explique, com suas palavras, como isso aconteceu.",
+     modelo:"No começo todos trabalhavam e usavam os recursos juntos. Com o tempo, os mais próximos do pater ficaram com mais poder e terras (os aristoi, os \"melhores\"), e assim surgiu a desigualdade.",
+     chk:["Mostrei que no início havia cooperação (recursos de todos)?","Expliquei que alguns concentraram poder/terras, criando desigualdade?"]},
+    {tipo:"ap", q:"Escreva uma frase sua usando corretamente a palavra \"pólis\".",
+     modelo:"Exemplo: \"Atenas era uma pólis independente, com seu próprio governo.\" A frase deve mostrar que pólis = cidade-Estado independente.",
+     chk:["Usei a palavra pólis numa frase minha?","A frase mostra que pólis é uma cidade-Estado/independente?"]}
+   ]},
+ { num:"IV", icone:"🛡️", titulo:"Esparta, a Cidade Guerreira", cap:"Capítulo 11 · Atenas e Esparta",
+   texto:[
+    "Esparta ficava no <b>Peloponeso</b>, numa área entre montanhas e <b>sem saída para o mar</b>. Sua origem estava ligada aos <b>dórios</b>, um povo muito militarizado — por isso Esparta se desenvolveu baseada na <b>força militar</b>.",
+    "A sociedade tinha três grupos: os <b>esparciatas</b> (donos das terras, ocupavam os cargos políticos e militares), os <b>periecos</b> (livres, viviam do comércio e do artesanato, mas <b>sem direitos políticos</b>) e os <b>hilotas</b> (servos, a maioria da população, faziam trabalho forçado).",
+    "A educação era militar: desde os <b>7 anos</b>, as crianças saíam de casa para treinar (até as meninas, para serem fortes). O governo era uma <b>oligarquia militar</b>: uma <b>diarquia</b> (dois reis) mais os <b>Éforos</b> (5 membros que podiam vetar os reis), a <b>Gerúsia</b> (conselho de anciãos) e a <b>Ápela</b> (assembleia que votava por aclamação, com palmas)."
+   ],
+   perg:[
+    {tipo:"ap", q:"Compare, com suas palavras, os três grupos sociais de Esparta (esparciatas, periecos e hilotas).",
+     modelo:"Esparciatas ficavam no topo: donos das terras e do poder. Periecos eram livres e trabalhavam com comércio e artesanato, mas não tinham direitos políticos. Hilotas eram servos, a maioria, e faziam trabalho forçado.",
+     chk:["Falei que os esparciatas tinham as terras e o poder?","Mostrei a diferença entre periecos (livres, sem política) e hilotas (servos)?"]},
+    {tipo:"ap", q:"Em Esparta, as crianças saíam de casa aos 7 anos para treinar. Escreva o que uma criança espartana aprendia — e por que a cidade queria isso.",
+     modelo:"Aprendia a ser um guerreiro forte, com muita disciplina militar. A cidade queria isso porque valorizava a força militar (era uma sociedade militarizada) e precisava de bons soldados.",
+     chk:["Disse que aprendia a ser guerreiro/disciplina militar?","Liguei isso à valorização da força militar pela cidade?"]},
+    {tipo:"co", q:"O que significa dizer que Esparta era uma \"oligarquia militar\"?",
+     modelo:"Significa que o poder ficava nas mãos de um <b>pequeno grupo</b> ligado à força militar (os esparciatas/hoplitas). Oligarquia = governo de poucos.",
+     chk:["Expliquei que o poder era de poucos (um pequeno grupo)?","Liguei esse grupo à força/vida militar?"]}
+   ]},
+ { num:"V", icone:"🏛️", titulo:"Atenas e a Democracia", cap:"Capítulo 11 · Atenas e Esparta",
+   texto:[
+    "Atenas foi fundada pelos <b>jônios</b>, na região da Ática, e prosperou com o <b>comércio marítimo</b>. No começo, o poder estava com uma aristocracia, os <b>eupátridas</b> (os \"bem-nascidos\"). Muita gente pobre chegava a virar <b>escrava por dívida</b>, o que gerava revoltas.",
+    "Para diminuir os conflitos, alguns governantes fizeram <b>reformas</b>: <b>Drácon</b> (621 a.C.) escreveu as leis; <b>Sólon</b> (594 a.C.) acabou com a escravidão por dívida, dividiu a sociedade por renda e criou a Eclésia (assembleia); e <b>Clístenes</b> (507 a.C.) fez a maior reforma, criando o sistema que deu origem à <b>democracia</b>.",
+    "Mas atenção: em Atenas, só era <b>cidadão</b> o homem livre, maior de 21 anos, nascido na cidade e filho de pai e mãe atenienses. <b>Mulheres, escravos e estrangeiros ficavam de fora</b> — apenas cerca de 10% eram cidadãos. Os cidadãos se reuniam em espaços como a <b>acrópole</b> (parte alta, com templos) e a <b>ágora</b> (praça pública de política e comércio). Atenas foi o berço da <b>Filosofia</b>."
+   ],
+   perg:[
+    {tipo:"ap", q:"Coloque em ordem e explique, com suas palavras, o que Drácon, Sólon e Clístenes fizeram por Atenas.",
+     modelo:"Drácon escreveu as leis (antes eram só faladas). Sólon acabou com a escravidão por dívida e dividiu a sociedade por renda, criando a Eclésia. Clístenes fez a reforma que deu origem à democracia.",
+     chk:["Coloquei na ordem Drácon → Sólon → Clístenes?","Liguei Clístenes ao nascimento da democracia?"]},
+    {tipo:"ap", q:"Na democracia ateniense, quem podia ser cidadão? A partir disso, você acha que ela era igual à democracia de hoje? Justifique.",
+     modelo:"Só homens livres, maiores de 21 anos, nascidos em Atenas e filhos de pais atenienses (cerca de 10% da população). Mulheres, escravos e estrangeiros eram excluídos. Por isso, era mais restrita que a democracia de hoje.",
+     chk:["Disse que só homens livres, nascidos em Atenas, eram cidadãos?","Citei quem ficava de fora (mulheres, escravos, estrangeiros)?","Comparei com a democracia de hoje?"]},
+    {tipo:"co", q:"O que eram a acrópole e a ágora em Atenas?",
+     modelo:"A <b>acrópole</b> era a parte alta da cidade, onde ficavam os templos. A <b>ágora</b> era a praça pública onde os cidadãos debatiam a política e também havia comércio.",
+     chk:["Descrevi a acrópole (parte alta, templos)?","Descrevi a ágora (praça pública de política/comércio)?"]}
+   ]},
+ { num:"VI", icone:"⚔️", titulo:"Gregos contra Persas", cap:"Capítulo 12 · Guerras na Grécia",
+   texto:[
+    "Vindo do leste, o <b>Império Persa</b> (no auge com <b>Dario I</b>) conquistou territórios até chegar perto da Grécia. As guerras começaram em <b>499 a.C.</b>, quando colônias gregas dominadas pelos persas se revoltaram, lideradas pela cidade de <b>Mileto</b> e com apoio de Atenas. Esses conflitos são chamados de <b>Guerras Médicas</b> (ou Greco-pérsicas).",
+    "Mesmo com um exército bem menor, os gregos venceram. Um dos motivos foi a <b>falange</b>: soldados enfileirados formando um bloco retangular, com <b>lanças longas</b> e <b>escudos</b> que protegiam a si e ao companheiro do lado, avançando como uma \"parede\".",
+    "Outra diferença: o exército persa era enorme, mas <b>sem unidade</b>, formado por povos conquistados e escravos. Já os gregos eram <b>cidadãos livres</b>, lutando por um ideal, e conheciam bem o próprio território e o mar."
+   ],
+   perg:[
+    {tipo:"co", q:"O que era a falange grega?",
+     modelo:"Era uma formação de combate: os soldados ficavam enfileirados em um bloco retangular, com lanças longas e escudos que protegiam a si mesmos e ao companheiro do lado.",
+     chk:["Descrevi soldados enfileirados/em bloco?","Citei as lanças e os escudos?"]},
+    {tipo:"ap", q:"O exército persa era muito maior. Explique, com suas palavras, por que os gregos, mesmo em menor número, conseguiram vencer.",
+     modelo:"Os gregos conheciam bem o território e o mar, usavam a falange e eram cidadãos livres lutando por um ideal. Já os persas, embora numerosos, eram povos conquistados sem unidade.",
+     chk:["Dei ao menos um motivo dos gregos (falange, território, cidadãos livres)?","Mostrei a falta de unidade do exército persa?"]},
+    {tipo:"ap", q:"\"Guerras Médicas\" e \"Guerras Greco-pérsicas\" são o mesmo conflito. Escreva uma frase explicando entre quem foi essa guerra.",
+     modelo:"Foi a guerra entre os <b>gregos</b> (as cidades-Estado, com Atenas) e o <b>Império Persa</b>.",
+     chk:["Deixei claro que foi gregos contra persas?","Escrevi em uma frase minha (sem copiar do texto)?"]}
+   ]},
+ { num:"VII", icone:"🏺", titulo:"O Auge e a Guerra do Peloponeso", cap:"Capítulo 12 · Guerras na Grécia",
+   texto:[
+    "Depois de vencer os persas, as pólis criaram em <b>478 a.C.</b> uma aliança de defesa liderada por Atenas: a <b>Liga de Delos</b>. Cada cidade contribuía com soldados, navios ou dinheiro, guardados na ilha de Delos. Mas Atenas <b>tomou o tesouro</b> para si e passou a dominar as outras cidades (hegemonia).",
+    "Nesse período, com o governante <b>Péricles</b> (443–429 a.C.), a democracia ficou estável e foi criada a <b>mistoforia</b> (um pagamento para os cidadãos poderem participar da política mesmo sendo pobres). Foi também quando se construiu o <b>Partenon</b>, templo dedicado à deusa Atena.",
+    "O domínio de Atenas irritou as outras pólis. Esparta reuniu aliados na <b>Liga do Peloponeso</b> e começou, em <b>431 a.C.</b>, a <b>Guerra do Peloponeso</b> (gregos contra gregos). Depois de muitas batalhas e de uma peste em Atenas, <b>Esparta venceu em 404 a.C.</b> As guerras entre as cidades enfraqueceram a Grécia, e em <b>338 a.C.</b> ela foi conquistada por <b>Filipe II da Macedônia</b>."
+   ],
+   perg:[
+    {tipo:"ap", q:"A Liga de Delos começou como uma aliança de defesa e virou instrumento de domínio de Atenas. Explique, com suas palavras, como isso aconteceu.",
+     modelo:"As pólis contribuíam com dinheiro, navios e soldados guardados na ilha de Delos. Atenas transferiu esse tesouro para o seu território e passou a mandar nas outras cidades — foi assim que dominou o mundo grego.",
+     chk:["Mostrei que era uma aliança com contribuições (tesouro em Delos)?","Expliquei que Atenas tomou o tesouro e passou a dominar as cidades?"]},
+    {tipo:"co", q:"O que foi a Guerra do Peloponeso e quem venceu?",
+     modelo:"Foi uma guerra <b>entre gregos</b> — a Liga de Delos (Atenas) contra a Liga do Peloponeso (Esparta), a partir de 431 a.C. Quem venceu foi <b>Esparta</b>, em 404 a.C.",
+     chk:["Disse que foi guerra entre gregos (Atenas x Esparta)?","Disse que Esparta venceu?"]},
+    {tipo:"ap", q:"As guerras entre as próprias cidades gregas enfraqueceram a Grécia. Mostre uma consequência disso citada no texto.",
+     modelo:"Enfraquecida pelas guerras, a Grécia foi <b>conquistada por Filipe II da Macedônia em 338 a.C.</b>",
+     chk:["Citei que a Grécia foi conquistada (por Filipe II da Macedônia)?","Liguei a conquista ao enfraquecimento causado pelas guerras?"]}
+   ]},
+ { num:"VIII", icone:"⚡", titulo:"Os Deuses do Olimpo", cap:"Capítulo 16 · Mitologia grega e romana",
+   texto:[
+    "A <b>mitologia greco-romana</b> era um conjunto de histórias que gregos e romanos criaram para dar sentido à realidade. Os deuses representavam as <b>forças da natureza</b> (o mar, o Sol), os <b>valores</b> (a sabedoria, a honra) e ensinavam <b>lições morais</b>. Tudo era transmitido <b>oralmente</b>.",
+    "A religião grega era <b>politeísta</b> (vários deuses) e <b>antropomórfica</b> (os deuses tinham aparência e sentimentos parecidos com os dos humanos: amavam, sentiam raiva, ciúme). A diferença é que os deuses eram <b>imortais</b>: viviam no <b>Olimpo</b> e tinham a <b>ambrosia</b> e o <b>néctar</b>, que davam vida eterna.",
+    "Os romanos usavam os mesmos deuses com <b>outros nomes</b>: por exemplo, o grego <b>Poseidon</b> era o romano <b>Netuno</b>, deus dos mares. Deusas famosas: Atena (sabedoria e estratégia de guerra), Hera (casamento) e Afrodite (amor e beleza)."
+   ],
+   perg:[
+    {tipo:"co", q:"O que significam \"politeísta\" e \"antropomórfico\" na religião grega?",
+     modelo:"<b>Politeísta</b> = acreditavam em vários deuses. <b>Antropomórfico</b> = os deuses tinham aparência e sentimentos parecidos com os dos humanos.",
+     chk:["Expliquei politeísta (vários deuses)?","Expliquei antropomórfico (parecidos com humanos)?"]},
+    {tipo:"ap", q:"Se os deuses gregos sentiam ciúme, raiva e amor como as pessoas, o que os tornava diferentes dos humanos? Explique com suas palavras.",
+     modelo:"O que os diferenciava era a <b>imortalidade</b>: viviam no Olimpo e tinham a ambrosia e o néctar, que davam vida eterna.",
+     chk:["Citei a imortalidade como a diferença?","Liguei isso ao Olimpo / ambrosia / néctar?"]},
+    {tipo:"ap", q:"Os romanos usavam os mesmos deuses dos gregos com outros nomes. Dê um exemplo do texto e explique.",
+     modelo:"Exemplo: Poseidon (grego) é o mesmo que Netuno (romano), o deus dos mares. Isso mostra que a mitologia era greco-romana.",
+     chk:["Dei um exemplo de deus com nome grego e romano (ex.: Poseidon/Netuno)?","Mostrei que é o mesmo deus com nomes diferentes?"]}
+   ]},
+ { num:"IX", icone:"⚖️", titulo:"Cidadãos, Mulheres e Escravos", cap:"Capítulo 17 · Cidadania no mundo greco-romano",
+   texto:[
+    "A cidadania de hoje inclui igualdade de direitos e voto para todos. Na Antiguidade não era assim: em Atenas nasceu a democracia e em Roma a república, mas a <b>cidadania era restrita</b>, deixando de fora grande parte das pessoas.",
+    "Grécia e Roma eram <b>sociedades escravistas</b>. Elas desprezavam o trabalho manual, que era destinado aos escravos. Assim, os escravos eram a <b>base da mão de obra</b> (agricultura, casa, criação de gado). A pessoa podia ser escravizada por <b>dívida</b>, por <b>nascimento</b> (filho de escravo) e, principalmente, por ser <b>prisioneira de guerra</b>.",
+    "O papel das <b>mulheres</b> era bem limitado: em geral ficavam restritas ao lar (ser esposa e mãe, cuidar da casa) e <b>não eram consideradas cidadãs</b> — assim como escravos e estrangeiros. Em Roma, a família era <b>patriarcal</b>: o <b>pater familias</b> (o pai) mandava na esposa, nos filhos e nos escravos."
+   ],
+   perg:[
+    {tipo:"ap", q:"O texto diz que Grécia e Roma eram \"sociedades escravistas\". Explique, com suas palavras, por que os escravos eram tão importantes na economia.",
+     modelo:"Como essas sociedades desprezavam o trabalho manual, os escravos faziam quase todo o trabalho — na agricultura, na casa e na criação de animais. Por isso eram a base da mão de obra.",
+     chk:["Liguei o desprezo pelo trabalho manual ao uso de escravos?","Disse que os escravos eram a base da mão de obra/trabalho?"]},
+    {tipo:"ap", q:"Cite duas maneiras pelas quais uma pessoa podia se tornar escrava na Antiguidade e escreva uma frase sobre a mais comum.",
+     modelo:"Podia ser por dívida, por nascimento (filho de escravo) e, principalmente, por ser prisioneiro de guerra — esta era a mais comum: quem perdia a batalha podia ser escravizado.",
+     chk:["Citei pelo menos duas formas (dívida, nascimento, guerra)?","Falei que a prisão de guerra era a principal?"]},
+    {tipo:"co", q:"Como era o papel das mulheres na sociedade greco-romana?",
+     modelo:"Em geral ficava restrito ao lar (ser boa esposa e mãe, cuidar da casa). Elas não participavam de assembleias nem eram consideradas cidadãs. Em Roma, a família era patriarcal, comandada pelo pater familias.",
+     chk:["Disse que o papel era restrito ao lar / não eram cidadãs?","Citei o caráter patriarcal em Roma (pater familias)?"]}
+   ]},
+ { num:"X", icone:"🏆", titulo:"O Legado dos Gregos", cap:"Capítulo 18 · O que herdamos dos gregos?",
+   texto:[
+    "Os gregos influenciaram muito o mundo de hoje. Além da <b>democracia</b>, deixaram três grandes heranças: <b>conhecimento, religião e cultura</b>. No conhecimento, criaram a <b>História</b> — <b>Heródoto</b> é chamado de \"pai da História\" (obra <i>Histórias</i>), seguido de <b>Tucídides</b> (Guerra do Peloponeso) e <b>Xenofonte</b> (discípulo de Sócrates).",
+    "A maior contribuição foi a <b>Filosofia</b>. <b>Tales de Mileto</b> foi o primeiro filósofo, por dar explicações <b>racionais</b> (e não mitológicas) sobre a natureza. A escola <b>pitagórica</b> (de Pitágoras) valorizava os números e ajudou a Matemática. Depois vieram os <b>sofistas</b> e a escola <b>socrática</b>, de Sócrates, Platão e Aristóteles.",
+    "Na religião e na cultura, os jogos atléticos em homenagem aos deuses deram origem aos <b>Jogos Olímpicos</b> (a palavra \"Olimpíada\" vem de Olímpia, perto do Monte Olimpo). Na arquitetura, criaram os estilos <b>jônico, dórico e coríntio</b> e templos como o <b>Partenon</b>. E inventaram o <b>teatro</b> (em homenagem a Dionísio), com a <b>tragédia</b> e a <b>comédia</b>, em que os atores usavam máscaras (personas)."
+   ],
+   perg:[
+    {tipo:"co", q:"Por que Heródoto é chamado de \"pai da História\"?",
+     modelo:"Porque ele inaugurou um novo jeito de narrar os acontecimentos: tratou o passado como um problema a ser investigado, e não apenas como relatos de deuses. Escreveu a obra <i>Histórias</i>.",
+     chk:["Disse que Heródoto criou um novo jeito de contar/investigar a história?","Mostrei que não era mais só relato de deuses/mitos?"]},
+    {tipo:"ap", q:"Os Jogos Olímpicos de hoje vêm da Grécia. Explique, com suas palavras, o que eles eram na Antiguidade e de onde vem a palavra \"Olimpíada\".",
+     modelo:"Eram jogos atléticos em homenagem aos deuses, com atletas de várias pólis. A palavra \"Olimpíada\" vem de Olímpia (perto do Monte Olimpo) e era o intervalo de 4 anos entre os jogos.",
+     chk:["Disse que eram jogos em homenagem aos deuses (atletas de várias pólis)?","Expliquei a origem da palavra Olimpíada (Olímpia/Olimpo/intervalo)?"]},
+    {tipo:"ap", q:"Liste três heranças dos gregos que ainda existem hoje e escreva uma frase ligando uma delas ao seu dia a dia.",
+     modelo:"Exemplos: democracia, filosofia, teatro (tragédia/comédia), Jogos Olímpicos, arquitetura de colunas. Frase: \"Quando voto na eleição do grêmio, uso a ideia de democracia que nasceu em Atenas.\"",
+     chk:["Listei pelo menos três heranças gregas?","Escrevi uma frase ligando uma herança ao meu dia a dia?"]}
+   ]}
+];
+
+var PEGADINHAS = [
+ "<b>Hélade x Grécia:</b> os próprios gregos chamavam a terra de Hélade e a si de helenos. \"Grécia/gregos\" é nome posterior.",
+ "<b>Esparta ≠ Atenas:</b> Esparta era militar e oligárquica; Atenas era comercial e democrática. Não troque as duas.",
+ "<b>A democracia ateniense NÃO era para todos:</b> mulheres, escravos e estrangeiros ficavam de fora (só ~10% eram cidadãos).",
+ "<b>Ordem das reformas de Atenas:</b> Drácon → Sólon → Clístenes. Quem criou a democracia foi <b>Clístenes</b>.",
+ "<b>Hilotas ≠ Periecos (Esparta):</b> hilotas eram servos; periecos eram livres (mas sem direitos políticos).",
+ "<b>Guerras Médicas x Guerra do Peloponeso:</b> Médicas = gregos × persas; Peloponeso = gregos × gregos (Atenas × Esparta).",
+ "<b>Quem venceu a Guerra do Peloponeso?</b> Esparta (em 404 a.C.), e não Atenas.",
+ "<b>Quem conquistou a Grécia enfraquecida?</b> Filipe II da Macedônia, em 338 a.C.",
+ "<b>Tales de Mileto</b> deu explicação <b>racional</b> (não mitológica) — por isso é o 1º filósofo. Pegadinha clássica de prova!",
+ "<b>Deuses gregos e romanos</b> são os mesmos com nomes diferentes (Poseidon/Netuno). Religião politeísta e antropomórfica."
+];
+
+/* ====== Normalização e detecção de cópia (anticópia) ====== */
+function normalizar(t){
+  return (t||"").toLowerCase()
+    .normalize("NFD").replace(/[̀-ͯ]/g,"")
+    .replace(/<[^>]*>/g," ")
+    .replace(/[^a-z0-9\s]/g," ")
+    .replace(/\s+/g," ").trim();
+}
+function palavras(t){ var n=normalizar(t); return n?n.split(" "):[]; }
+// remove das palavras da resposta os trechos citados do enunciado (sequências de 4+ palavras iguais)
+function descontarEnunciado(respWords, enunWords){
+  var enunStr=" "+enunWords.join(" ")+" ";
+  var out=respWords.slice();
+  var i=0;
+  while(i<out.length){
+    var maxLen=0;
+    for(var L=Math.min(20,out.length-i);L>=4;L--){
+      var run=" "+out.slice(i,i+L).join(" ")+" ";
+      if(enunStr.indexOf(run)>=0){ maxLen=L; break; }
+    }
+    if(maxLen>=4){ out.splice(i,maxLen); } else { i++; }
+  }
+  return out;
+}
+// analisa a resposta contra o texto do bloco -> {transcrita, longest, coverage}
+function analisarCopia(resp, blocoTexto, enunciado){
+  var rp=palavras(resp);
+  rp=descontarEnunciado(rp, palavras(enunciado));
+  if(rp.length<5) return {transcrita:false,longest:rp.length,coverage:0};
+  var blocoStr=" "+palavras(blocoTexto).join(" ")+" ";
+  var longest=0, cobertos=new Array(rp.length).fill(false);
+  for(var i=0;i<rp.length;i++){
+    var L=0;
+    for(var j=i;j<rp.length;j++){
+      var run=" "+rp.slice(i,j+1).join(" ")+" ";
+      if(blocoStr.indexOf(run)>=0){ L=j-i+1; } else break;
+    }
+    if(L>longest) longest=L;
+    if(L>=5){ for(var k=i;k<i+L;k++) cobertos[k]=true; }
+  }
+  var cov=cobertos.filter(Boolean).length/rp.length;
+  var transcrita = (longest>=8) || (cov>0.6);
+  return {transcrita:transcrita, longest:longest, coverage:cov};
+}
+
+/* ====== Estado ====== */
+var estado = carregar();
+function carregar(){
+  try{ var raw=lsGet(STORE); if(raw) return JSON.parse(raw); }catch(e){}
+  return {abertos:1, perguntas:{}}; // abertos = quantas colunas liberadas
+}
+function salvar(){
+  lsSet(STORE, JSON.stringify(estado));
+  var s=document.getElementById("salvo");
+  if(s) s.textContent="Salvo às "+new Date().toLocaleTimeString("pt-BR");
+}
+
+/* ====== Render ====== */
+function pid(b,q){ return "b"+b+"q"+q; }
+function render(){
+  var cont=document.getElementById("colunas"); cont.innerHTML="";
+  BLOCOS.forEach(function(bloco,bi){
+    var aberto = bi < estado.abertos;
+    var div=document.createElement("div");
+    div.className="col"+(aberto?" aberto":"");
+    div.id="col"+bi;
+    var html='<div class="col-head"><span class="num">'+bloco.num+'</span><h2>'+bloco.icone+' '+bloco.titulo+'<span class="cap">'+bloco.cap+'</span></h2></div>';
+    if(!aberto){
+      html+='<div class="locktag">🔒 Confira a coluna anterior para abrir esta.</div>';
+      div.innerHTML=html; cont.appendChild(div); return;
+    }
+    html+='<div class="col-body">';
+    bloco.texto.forEach(function(p){ html+='<p>'+p+'</p>'; });
+    bloco.perg.forEach(function(pg,qi){
+      var id=pid(bi,qi);
+      var st=estado.perguntas[id]||{};
+      html+='<div class="perg '+(pg.tipo==="ap"?"badge-ap":"badge-co")+'" id="perg_'+id+'">';
+      html+='<div><span class="qnum">Pergunta '+(qi+1)+'.</span> '+pg.q+'</div>';
+      html+='<textarea id="ta_'+id+'" oninput="onInput(\''+id+'\')" '+(st.conferida?'':'')+'>'+(st.resp?escapeHtml(st.resp):"")+'</textarea>';
+      html+='<div class="aviso" id="av_'+id+'"></div>';
+      html+='<div class="modelo" id="mo_'+id+'"><b>Resposta modelo:</b> '+pg.modelo+'<div class="chk" id="chk_'+id+'"></div><div class="status" id="stt_'+id+'"></div></div>';
+      html+='</div>';
+    });
+    html+='<div style="text-align:center;margin-top:10px"><button class="btn" id="btn_'+bi+'" onclick="conferir('+bi+')">Conferir coluna '+bloco.num+'</button></div>';
+    html+='</div>';
+    div.innerHTML=html;
+    cont.appendChild(div);
+    // restaura estados visuais
+    bloco.perg.forEach(function(pg,qi){
+      var id=pid(bi,qi); var st=estado.perguntas[id]||{};
+      if(st.conferida){ mostrarModelo(bi,qi); }
+      if(st.vermelha){ marcarVermelha(id,true); }
+    });
+  });
+  renderPeg(); renderRev();
+}
+function renderPeg(){
+  var ol=document.getElementById("pegadinhas"); ol.innerHTML="";
+  PEGADINHAS.forEach(function(p){ var li=document.createElement("li"); li.innerHTML=p; ol.appendChild(li); });
+}
+function escapeHtml(s){ return (s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+
+function onInput(id){
+  var ta=document.getElementById("ta_"+id);
+  var st=estado.perguntas[id]||(estado.perguntas[id]={});
+  st.resp=ta.value;
+  // reescrever com palavras próprias remove a marca vermelha, se a cópia sumiu
+  if(st.vermelha){
+    var ref=refPergunta(id);
+    var an=analisarCopia(ta.value, ref.blocoTexto, ref.q);
+    if(!an.transcrita){ st.vermelha=false; marcarVermelha(id,false); var av=document.getElementById("av_"+id); if(av){av.className="aviso";av.textContent="";} atualizarStatusBloco(ref.bi); }
+  }
+  salvar();
+}
+function refPergunta(id){
+  var m=id.match(/^b(\d+)q(\d+)$/); var bi=+m[1], qi=+m[2];
+  var bloco=BLOCOS[bi];
+  return {bi:bi,qi:qi,q:bloco.perg[qi].q,blocoTexto:bloco.texto.join(" "),modelo:bloco.perg[qi].modelo,chk:bloco.perg[qi].chk};
+}
+function marcarVermelha(id,on){
+  var ta=document.getElementById("ta_"+id);
+  var perg=document.getElementById("perg_"+id);
+  if(ta) ta.classList.toggle("vermelha",on);
+}
+
+function conferir(bi){
+  var bloco=BLOCOS[bi];
+  // 1) exige as 3 preenchidas (min 3 chars)
+  for(var qi=0;qi<bloco.perg.length;qi++){
+    var ta=document.getElementById("ta_"+pid(bi,qi));
+    if(!ta || ta.value.trim().length<3){ modal("Responda as 3 perguntas (pelo menos 3 letras cada) antes de conferir."); return; }
+  }
+  // 2) checa cópia pergunta a pergunta
+  var travou=false;
+  for(var qi=0;qi<bloco.perg.length;qi++){
+    var id=pid(bi,qi);
+    var st=estado.perguntas[id]||(estado.perguntas[id]={});
+    var an=analisarCopia(st.resp, bloco.texto.join(" "), bloco.perg[qi].q);
+    var av=document.getElementById("av_"+id);
+    if(an.transcrita && !st.vermelha){
+      if(!st.tentou){
+        // 1ª detecção: não aceita ainda, pede reescrita
+        st.tentou=st.resp;
+        av.className="aviso amarelo";
+        av.innerHTML="Boa parte da sua resposta está igual ao texto. Tente reescrever com as SUAS palavras — explique como se fosse para um amigo, sem olhar o texto. Pode ficar mais curto e simples, o que vale é ser SEU.";
+        marcarVermelha(id,false);
+        travou=true;
+      } else {
+        // 2ª tentativa: aceita, mas marca vermelha permanente
+        st.vermelha=true;
+        av.className="aviso vermelho";
+        av.innerHTML="Esta resposta continua muito parecida com o texto. Ela foi aceita, mas ficou marcada para revisar. Reescrever com as suas palavras apaga a marca.";
+        marcarVermelha(id,true);
+      }
+    } else if(!an.transcrita){
+      if(av){ av.className="aviso"; av.textContent=""; }
+    }
+  }
+  if(travou){ salvar(); return; }
+  // 3) libera: mostra modelos e autoavaliação
+  for(var qi=0;qi<bloco.perg.length;qi++){
+    var id=pid(bi,qi);
+    estado.perguntas[id].conferida=true;
+    mostrarModelo(bi,qi);
+  }
+  // abre próxima coluna
+  if(estado.abertos < BLOCOS.length && estado.abertos === bi+1){
+    estado.abertos = bi+2;
+  }
+  salvar();
+  render();
+  var prox=document.getElementById("col"+(bi+1));
+  if(prox) prox.scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+function mostrarModelo(bi,qi){
+  var id=pid(bi,qi);
+  var mo=document.getElementById("mo_"+id); if(!mo) return;
+  mo.classList.add("show");
+  var chkDiv=document.getElementById("chk_"+id); if(!chkDiv) return;
+  var st=estado.perguntas[id]||{};
+  st.chk=st.chk||{};
+  var bloco=BLOCOS[bi];
+  chkDiv.innerHTML="<div style='margin:6px 0;color:var(--muted)'>Confira sua resposta (seja sincero):</div>";
+  bloco.perg[qi].chk.forEach(function(pergunta,ci){
+    var val=st.chk[ci];
+    var row=document.createElement("div"); row.className="item";
+    row.innerHTML="<span style='flex:1'>"+pergunta+"</span>"+
+      "<button class='sim"+(val==="sim"?" on":"")+"' onclick=\"chkSet('"+id+"',"+ci+",'sim')\">Sim</button>"+
+      "<button class='nao"+(val==="nao"?" on":"")+"' onclick=\"chkSet('"+id+"',"+ci+",'nao')\">Não</button>";
+    chkDiv.appendChild(row);
+  });
+  atualizarStatusPergunta(id);
+}
+function chkSet(id,ci,val){
+  var st=estado.perguntas[id]||(estado.perguntas[id]={}); st.chk=st.chk||{};
+  st.chk[ci]=val; salvar();
+  var m=id.match(/^b(\d+)q(\d+)$/);
+  mostrarModelo(+m[1],+m[2]);
+}
+function atualizarStatusPergunta(id){
+  var stt=document.getElementById("stt_"+id); if(!stt) return;
+  var ref=refPergunta(id); var st=estado.perguntas[id]||{};
+  var chk=st.chk||{}; var total=ref.chk.length;
+  var respondidos=0, temNao=false;
+  for(var i=0;i<total;i++){ if(chk[i]){respondidos++; if(chk[i]==="nao") temNao=true;} }
+  if(respondidos<total){ stt.className="status"; stt.textContent=""; return; }
+  if(temNao || st.vermelha){ stt.className="status rev"; stt.textContent="🔁 Vale revisar esta pergunta."; }
+  else { stt.className="status ok"; stt.textContent="✅ Você domina esta!"; }
+  atualizarStatusBloco(ref.bi);
+}
+function atualizarStatusBloco(bi){ renderRev(); }
+
+function renderRev(){
+  var box=document.getElementById("revbox"), list=document.getElementById("revlist");
+  if(!box||!list) return;
+  list.innerHTML=""; var algum=false;
+  BLOCOS.forEach(function(bloco,bi){
+    bloco.perg.forEach(function(pg,qi){
+      var id=pid(bi,qi); var st=estado.perguntas[id]||{};
+      if(!st.conferida) return;
+      var chk=st.chk||{}; var temNao=false;
+      for(var i=0;i<pg.chk.length;i++){ if(chk[i]==="nao") temNao=true; }
+      if(st.vermelha || temNao){
+        algum=true;
+        var li=document.createElement("li");
+        li.innerHTML="<b>Coluna "+bloco.num+"</b> — Pergunta "+(qi+1)+(st.vermelha?" <span style='color:var(--red)'>(resposta parecida com o texto)</span>":"")+(temNao?" <span style='color:var(--terra)'>(autoavaliação: algum \"não\")</span>":"");
+        list.appendChild(li);
+      }
+    });
+  });
+  box.style.display = algum?"block":"none";
+}
+
+/* ====== Export/Import/Zerar ====== */
+function exportar(){
+  var out={material:"Leitura Guiada - Colunas da Helade", data:new Date().toISOString(), abertos:estado.abertos, perguntas:{}};
+  BLOCOS.forEach(function(bloco,bi){ bloco.perg.forEach(function(pg,qi){
+    var id=pid(bi,qi); var st=estado.perguntas[id]; if(!st) return;
+    out.perguntas[id]={resp:st.resp||"", conferida:!!st.conferida, transcrita:!!st.vermelha, tentou:st.tentou||"", chk:st.chk||{}};
+  });});
+  var blob=new Blob([JSON.stringify(out,null,2)],{type:"application/json"});
+  var a=document.createElement("a"); a.href=URL.createObjectURL(blob);
+  a.download="leitura-guiada_colunas-helade.json"; a.click();
+}
+function importar(ev){
+  var f=ev.target.files[0]; if(!f) return;
+  var r=new FileReader();
+  r.onload=function(){ try{
+    var d=JSON.parse(r.result);
+    if(d.perguntas){ estado.perguntas={}; Object.keys(d.perguntas).forEach(function(id){
+      var p=d.perguntas[id]; estado.perguntas[id]={resp:p.resp,conferida:p.conferida,vermelha:p.transcrita,tentou:p.tentou,chk:p.chk||{}};
+    }); estado.abertos=d.abertos||1; salvar(); render(); modal("Progresso importado!"); }
+  }catch(e){ modal("Arquivo inválido."); } };
+  r.readAsText(f);
+}
+function zerar(){
+  modalConfirm("Apagar todo o seu progresso desta leitura?", function(){
+    estado={abertos:1,perguntas:{}}; lsDel(STORE); salvar(); render();
+  });
+}
+
+/* ====== Modal (sem alert/confirm) ====== */
+function modal(txt){
+  document.getElementById("modaltxt").innerHTML=txt;
+  var b=document.getElementById("modalbg"); b.classList.add("show");
+  b.querySelector("button").onclick=fecharModal;
+}
+function modalConfirm(txt,cb){
+  document.getElementById("modaltxt").innerHTML=txt;
+  var b=document.getElementById("modalbg"); b.classList.add("show");
+  var btn=b.querySelector("button"); btn.textContent="Confirmar";
+  btn.onclick=function(){ fecharModal(); btn.textContent="Ok"; cb&&cb(); };
+}
+function fecharModal(){ document.getElementById("modalbg").classList.remove("show"); }
+
+render();
+</script>
+</body>
+</html>
